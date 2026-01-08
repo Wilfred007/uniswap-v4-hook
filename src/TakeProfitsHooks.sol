@@ -26,7 +26,7 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         mapping( bool zeroForOne => 
             int256 amount 
         ))) public takeProfitPosition;
-        
+
     // Initiallize base hook and ERC1155 parent contracts in the constructor
     constructor(
         IPoolManager _poolManager,
@@ -45,6 +45,15 @@ contract TakeProfitHook is BaseHook, ERC1155 {
             afterSwap: true,
             beforeDonate: false,
             afterDonate: false
-        })
+        });
     }
+
+
+
+    // Helper functions
+    function _setTickLowerLast(PoolId poolId, int24 tickLower) private {
+        tickLowerLast[poolId] = tickLower;
+    }
+
+    
 }
