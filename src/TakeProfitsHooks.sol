@@ -17,11 +17,16 @@ contract TakeProfitHook is BaseHook, ERC1155 {
 
     //Represent the limit order for each pool
     // PoolId poolId => means the limit order is for a specific pool
-    // int24 tick => means the limit order is for a specific tick
+    // mapping(int24 tick => means the limit order is for a specific tick
+    // mapping(bool zeroForOne => means the limit order is for a specific direction with true being swapping token 0 for token 1 and false being swapping token 1 for token 0
+    // int256 amount => means the limit order is for a specific amount
     mapping(
         PoolId poolId =>  
-        mapping( int24 tick => )
-    )
+        mapping( int24 tick =>
+        mapping( bool zeroForOne => 
+            int256 amount 
+        ))) public takeProfitPosition;
+        
     // Initiallize base hook and ERC1155 parent contracts in the constructor
     constructor(
         IPoolManager _poolManager,
