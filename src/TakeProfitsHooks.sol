@@ -27,6 +27,11 @@ contract TakeProfitHook is BaseHook, ERC1155 {
             int256 amount 
         ))) public takeProfitPosition;
 
+
+    // ERC-1155 - State
+    //Mapping the store if a given token id(i.e a take profit order) exists
+    mapping(uint256 tokenId => bool) public takeProfitExists;
+
     // Initiallize base hook and ERC1155 parent contracts in the constructor
     constructor(
         IPoolManager _poolManager,
