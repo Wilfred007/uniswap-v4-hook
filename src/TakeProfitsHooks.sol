@@ -31,6 +31,12 @@ contract TakeProfitHook is BaseHook, ERC1155 {
     // ERC-1155 - State
     //Mapping the store if a given token id(i.e a take profit order) exists
     mapping(uint256 tokenId => bool) public takeProfitExists;
+    // Mapping to store how many swapped tokens are claimable for a given token id
+    mapping(uint256 tokenId => uint256) public tokenIdClaimable;
+    // Mapping that stores how many tokens need to be sold to execute the 
+    mapping(uint256 tokenId => uint256 supply) public tokenIdTotalSupply;
+    // Mapping that stores the PoolKey, tickLower and zeroForOne values for each token id
+    mapping(uint256 tokenId => TokenData) public tokenIdData;
 
     // Initiallize base hook and ERC1155 parent contracts in the constructor
     constructor(
