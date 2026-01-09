@@ -7,10 +7,13 @@ import { ERC1155 } from "openzeppelin-contracts/contracts/token/ERC1155/ERC1155.
 import { IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 import { Hooks } from "v4-core/libraries/Hooks.sol";
 import { PoolId, PoolIdLibrary } from "v4-core/libraries/PoolId.sol";
+import { Currency, CurrencyLibrary } from "v4-core/libraries/CurrencyLibrary.sol";
+import { IERC20 } from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 
 contract TakeProfitHook is BaseHook, ERC1155 {
     using PoolIdLibrary for IpoolManager.PoolKey;
+    using CurrencyLibrary for Currency;
 
     // Represent the last tickLower for each pool
     mapping(PoolId poolId => int24 tickLower) public tickLowerLast;
@@ -66,6 +69,18 @@ contract TakeProfitHook is BaseHook, ERC1155 {
 
         // Every hook in uniswap v4 has to return a function selector
         return TakeProfitHook.affterInitialize.selector;
+    }
+
+    // Core utilities
+    function placeOrder(
+        IPoolManager.PoolKey calldata key,
+        int24 tick,
+        uint256 amount,
+        bool zeroForOne
+    ) external returns (int24){
+        int24 tickLower = _getTickLower(tick, key.tickSpacing);
+
+        
     }
 
     // ERC-1155 - helper function to get the unique token ID
