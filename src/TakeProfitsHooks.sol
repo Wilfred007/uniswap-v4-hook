@@ -58,7 +58,17 @@ contract TakeProfitHook is BaseHook, ERC1155 {
     }
 
     // ERC-1155 - helper function to get the unique token ID
-    
+    function getTokenId(
+        IPoolManager.PoolKey calldata key,
+        int24 tickLowe,
+        bool zeroForOne
+    ) public pure returns (uint256) {
+        return 
+        uint256(
+            keccak256(abi.encode(key.toId(), tickLower, zeroForOne))
+        );
+    }
+
 
 
     // Helper functions
