@@ -57,6 +57,9 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         return TakeProfitHook.affterInitialize.selector;
     }
 
+    // ERC-1155 - helper function to get the unique token ID
+    
+
 
     // Helper functions
     function _setTickLowerLast(PoolId poolId, int24 tickLower) private {
