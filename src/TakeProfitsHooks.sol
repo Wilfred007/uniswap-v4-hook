@@ -49,6 +49,11 @@ contract TakeProfitHook is BaseHook, ERC1155 {
     }
 
 
+    //Hooks
+    function afterInitialize(address, IPoolManager.PoolKey calldata key, uint160, int24 tick) {
+        _setTickLowerLast(key.toId(), getTickLower(tick, key.tickSpacing));
+    }
+
 
     // Helper functions
     function _setTickLowerLast(PoolId poolId, int24 tickLower) private {
