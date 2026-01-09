@@ -55,5 +55,10 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         tickLowerLast[poolId] = tickLower;
     }
 
-    
+    function getTickLower(int24 actualTick, int24 tickSpacing) private pure returns (int24){
+        int24 intervals = actualTick / tickSpacing;
+        return intervals * tickSpacing;
+    }
+
+
 }
