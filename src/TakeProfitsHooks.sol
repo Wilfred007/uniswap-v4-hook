@@ -52,6 +52,9 @@ contract TakeProfitHook is BaseHook, ERC1155 {
     //Hooks
     function afterInitialize(address, IPoolManager.PoolKey calldata key, uint160, int24 tick) {
         _setTickLowerLast(key.toId(), getTickLower(tick, key.tickSpacing));
+
+        // Every hook in uniswap v4 has to return a function selector
+        return TakeProfitHook.affterInitialize.selector;
     }
 
 
