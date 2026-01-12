@@ -117,8 +117,6 @@ contract TakeProfitHook is BaseHook, ERC1155 {
               */
 
             if(params.zeroForOne){ // zeroForOne is true means we're swapping token 0 for token 1 (selling token 0 for token 1)
-
-            }else { // zeroForOne is false means we're swapping token 1 for token 0 (selling token 1 for token 0)
                 if(delta.amount0() > 0) {
                     IERC20(Currency.unwrap(key.currency0)).transfer( //
                         address(poolManager),
@@ -126,6 +124,11 @@ contract TakeProfitHook is BaseHook, ERC1155 {
                     );
                     poolManager.settle(key.currency0);
                 }
+                if(delta.amount1() < 0) {
+                    poolManager.take(key.currency1, address(this), uint128(-delta.amount1()))
+                }
+            }else { // zeroForOne is false means we're swapping token 1 for token 0 (selling token 1 for token 0)
+                
             }
 
         }
