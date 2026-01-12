@@ -105,6 +105,30 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         return tickLower;
     }
 
+    // A helper function to execute swaps 
+    function _handleSwap(
+        IPoolManager.PoolKey calldata key,
+        IPoolManager.SwapParams calldata params) external returns (BalanceDelta) {
+            BalanceDelta delta = pollManager.swap(key, params); // Balance delta contains the exact amounts where amount 0 represents the delta change of token 0 and amount 1 reps the delta change of token 1
+
+            /**When you call the swap function uniswap returns the delta change in balance
+            For example you're swapping tokens 0 for token 1 you're increasing the balance of token 0 and 
+            decreasing the balance ot token 1
+              */
+
+            if(params.zeroForOne){ // zeroForOne is true means we're swapping token 0 for token 1 (selling token 0 for token 1)
+
+            }else {
+                if(delta.amount0() > 0) {
+                    IERC20(Currency.unwrap(key.currency0)).transfer(
+                        msg.sender,
+                        uint128(delta.amount0())
+                    )
+                }
+            }
+
+        }
+
 
     function cancelOrder(IPoolManager.PoolKey calldata key, int24 tick, bool zeroForOne) external {
         int24 tickLower = _getTickLower(tick, key.tickSpacing);
