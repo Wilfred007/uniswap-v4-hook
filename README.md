@@ -79,3 +79,11 @@ $ cast --help
  `tickUpper` is the upper bound of the price range
 
  # sqrtPriceLimitx96
+ This is also used to keep track of prices  - since soldity does not support floating point numbers. complex measures are used to represent precise prices
+
+ # Q notation 
+ This is used to convert a number from its Q notation (Q128.128) to a decimal number and vice versa
+ Example some value v that is in decimal
+ v = Q notation
+ V * (2 ^ k) where k = some constant 
+ and k depends on how big of a Q notation we are using
