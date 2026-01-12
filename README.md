@@ -64,3 +64,18 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+ # ticks
+ SOlidity does not support floating-point numbers.
+ Ticks - represent token prices of a pair of tokens in a pool.
+
+ Conceptually - The smallest amount possible by which the proce of an asset can move up or down.
+ 
+ Ticks are spaced at intervals of tickSpacing
+
+ We round the actual tick to either `tickLower` or `tickUpper` 0 and 1 respectively
+
+
+ `tickLower` is the lower bound of the price range
+ `tickUpper` is the upper bound of the price range
+
+ # sqrtPriceLimitx96
