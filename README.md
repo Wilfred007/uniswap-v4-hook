@@ -87,3 +87,15 @@ $ cast --help
  v = Q notation
  V * (2 ^ k) where k = some constant 
  and k depends on how big of a Q notation we are using
+
+ If you want to get the value of v in Q notation with x 96
+ then you have to v * (2 ^ 96)
+
+ `sqrtPriceX96` is the Q notation value for the Square Root of the Price (right now)
+ Price(right now) = Price(i = currentTick) = 1.0001 ^ i
+
+ sqrtPriceX96 = (sqrt(Price)) * (2 ^ 96) - this represents the price ration between the two tokens
+
+ `sqrtPriceLimitx96` specifies the limit on the price ratio - it can be a lower limit it can be an upper limit
+ In essence - when you are making a swap on uniswap you have to set a slippage % like how much price impact are you willing to handle
+ On the frontend you select a slippage % - but the contract converts it to Q notation
