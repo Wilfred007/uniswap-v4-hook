@@ -119,6 +119,13 @@ contract TakeProfitHook is BaseHook, ERC1155 {
 
         // burn the ERC1155 tokens from the user
         _burn(msg.sender, tokenId, amountIn);
+
+        // Take th contract address of the token they wish to sell and send it back to them
+        address tokenToBeSoldContract = zeroForOne
+            ? Currency.uniswap(key.currency0)
+            : Currency.unwrap(key.currency1);
+
+        IERC20(tokenToBeSoldContract).transfer(msg.sender, amountIn);
     }
 
     // ERC-1155 - helper function to get the unique token ID
