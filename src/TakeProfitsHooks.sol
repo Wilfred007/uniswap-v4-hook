@@ -97,7 +97,9 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         : Currency.unwrap(key.currency1);
 
         IERC20(tokenToBeSoldContract).transferFrom(msg.sender, address(this), amountIn);
-    };
+
+        return tickLower;
+    }
 
     // ERC-1155 - helper function to get the unique token ID
     function getTokenId(
