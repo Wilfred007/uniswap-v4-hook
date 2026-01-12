@@ -75,12 +75,26 @@ contract TakeProfitHook is BaseHook, ERC1155 {
     function placeOrder(
         IPoolManager.PoolKey calldata key,
         int24 tick,
-        uint256 amount,
+        uint256 amountIn,
         bool zeroForOne
     ) external returns (int24){
         int24 tickLower = _getTickLower(tick, key.tickSpacing);
 
-        
+        takeProfitPosition[key.toId()][tickLower][zeroForOne] += amount;
+
+        // Calculate the token ids for the recieved tokens
+        uint256 tokenId = getTokenId(key, tickLower, zeroForOne);
+
+        if(!tokenIdExists[tokenId]) {
+            tokenIdExists[tokenId] = true;
+            tokenIdData[tokenId] = TokenData(key, tickLower, zeroForOne);
+        }
+
+        _mint(msg.sender, tokenId, amountIn, "" );
+
+        address tokenToBeSOldContract = zeroForOne ? 
+        Currency.unwrap(key.currency0)
+        : Currency.unwrap(key.currency1);
     }
 
     // ERC-1155 - helper function to get the unique token ID
