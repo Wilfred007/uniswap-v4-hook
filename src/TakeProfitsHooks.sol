@@ -10,6 +10,10 @@ import { PoolId, PoolIdLibrary } from "v4-core/libraries/PoolId.sol";
 import { Currency, CurrencyLibrary } from "v4-core/libraries/CurrencyLibrary.sol";
 import { IERC20 } from "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
+//Libraries for calculating sqrtPriceLimitx96
+import { TickMath } from "v4-core/libraries/TickMath.sol";
+import { BalanceDelta } from "v4-core/types/BalanceDelta.sol";
+
 
 contract TakeProfitHook is BaseHook, ERC1155 {
     using PoolIdLibrary for IpoolManager.PoolKey;
