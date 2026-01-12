@@ -108,7 +108,17 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         uint256 tokenId = getTokenId(key, tickLower, zeroForOne);
 
         // check how much balance of ERC1155 tokens they have
-        uint256 amountIn = balanceOf(msg.sender, tokenId);
+        uint256 amountIn = balanceOf(msg.sender, tokenId);  
+        require(amount > 0, "No orders to cancel");
+
+        // update the take profit position and reduce by amount in
+        takeProfitPosition[key.toId()][tickLower][zeroForOne] -= int256(amountIn);
+
+        //Reduce total supply for this token id by by the amount in
+        tokenIdTotalSupply[tokenId] -= amountIn;
+
+        // burn the ERC1155 tokens from the user
+        _burn(msg.sender, tokenId, amountIn);
     }
 
     // ERC-1155 - helper function to get the unique token ID
