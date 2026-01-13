@@ -116,7 +116,12 @@ contract TakeProfitHook is BaseHook, ERC1155 {
             zeroForOne: zeroForOne,
             amountSpecified: amountIn,
             // Set the price limit to be the least possible if swapping from token 0 to token 1
-        })
+            // or the maximum possible if swapping from token 1 to token 0
+            // i.e finite slippage allowed
+            sqrtPriceLimitX96: zeroForOne
+                ? TickMath.MIN_SQRT_RATIO + 1
+                : TickMath.MAX_SQRT_RATIO - 1
+        });
 
     }
 
