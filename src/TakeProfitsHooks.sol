@@ -132,6 +132,8 @@ contract TakeProfitHook is BaseHook, ERC1155 {
             ),
             (BalanceDelta)
         );
+
+        // Modify position swaps and reduce the amount
         takeProfitPositions[key.toId()][tick][zeroForOne] -= amountIn;
 
         uint256 tokenId = getTokenId(key, tick, zeroForOne);
