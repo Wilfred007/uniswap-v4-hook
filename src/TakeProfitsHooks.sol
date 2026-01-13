@@ -75,7 +75,14 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         return TakeProfitHook.affterInitialize.selector;
     }
 
-    function afterSwap()
+    function afterSwap(
+        address,
+        IPoolManager.PoolKey calldata key,
+        IPoolManager.SwapParams calldata params,
+        BalanceDelta
+        ) external override poolManagerOnly returns (bytes4) {
+            
+        }
 
     // Core utilities
     function placeOrder(
