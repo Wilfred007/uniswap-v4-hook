@@ -126,8 +126,15 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         BalanceDelta delta = abi.decode(  
             // In uniswap v4 you acquire a lock on the pool manager since there is a single contract that manages all the pools,
             // while you have a lock on the pool manager contract you can perform whatever action you want to perform on the pool
-            // it can be swap, donate, modify position etc
-        )
+            // it can be swap, donate, modify position etc, then release the lock
+            poolManager.lock(
+                abi.encodeCall(this._handleSwap, (key, swapParams))
+            ),
+            (BalanceDelta)
+        );
+        takeProfitPositions[key.toId()][tick][zeroForOne] -= amountIn;
+
+        uint256 tokenId = getTokenId(key, tick, zeroForOne);
 
     }
 
