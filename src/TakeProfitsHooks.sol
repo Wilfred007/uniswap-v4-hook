@@ -81,6 +81,10 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         IPoolManager.SwapParams calldata params,
         BalanceDelta
         ) external override poolManagerOnly returns (bytes4) {
+            int24 lastTickLower = tickLowerLast[key.toId()];  // get the last know tick for the pool
+
+            (, int24 currentTick, , , , ) = poolManager.getSlot0(key.toId());
+            
             
         }
 
