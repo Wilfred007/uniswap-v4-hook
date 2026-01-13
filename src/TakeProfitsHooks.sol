@@ -136,8 +136,14 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         // Modify position swaps and reduce the amount
         takeProfitPositions[key.toId()][tick][zeroForOne] -= amountIn;
 
-        // Calculate how many tokens recieved from the swap
         uint256 tokenId = getTokenId(key, tick, zeroForOne);
+
+        // Calculate how many tokens recieved from the swap
+        // 
+        uint256 amountOfTokensRecievedFromSwap = zeroForOne
+            ? uint256(int256(-delta.amount1()))
+            : uint256(int256(-delta.amount0()));
+
 
     }
 
