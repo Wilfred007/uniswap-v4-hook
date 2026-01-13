@@ -105,7 +105,20 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         return tickLower;
     }
 
-    // Fill order function - this function executes orders
+    // Fill order function - this function executes orders, it is the function that after swap calls to execute orders
+    function fillOrder(
+        IPoolManager.PoolKey calldata key,
+        int24 tick,
+        bool zeroForOne,
+        int256 amountIn
+    ) internal {
+        IPoolManager.SwapParams memory swapParams = IPoolManager.SwapParams({
+            zeroForOne: zeroForOne,
+            amountSpecified: amountIn,
+            // Set the price limit to be the least possible if swapping from token 0 to token 1
+        })
+
+    }
 
     // A helper function to execute swaps 
     function _handleSwap(
