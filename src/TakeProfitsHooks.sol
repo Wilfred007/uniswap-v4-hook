@@ -84,7 +84,9 @@ contract TakeProfitHook is BaseHook, ERC1155 {
             int24 lastTickLower = tickLowerLast[key.toId()];  // get the last know tick for the pool
 
             (, int24 currentTick, , , , ) = poolManager.getSlot0(key.toId());
-            
+
+            int24 currentTickLower = _getTickLower(currentTick, key.tickSpacing)
+
             
         }
 
