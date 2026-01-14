@@ -81,11 +81,33 @@ contract TakeProfitHook is BaseHook, ERC1155 {
         IPoolManager.SwapParams calldata params,
         BalanceDelta
         ) external override poolManagerOnly returns (bytes4) {
-            int24 lastTickLower = tickLowerLast[key.toId()];  // get the last know tick for the pool
+            int24 lastTickLower = tickLowerLast[key.toId()];  // get the last known tickLower for the pool
 
-            (, int24 currentTick, , , , ) = poolManager.getSlot0(key.toId());
+            (, int24 currentTick, , , , ) = poolManager.getSlot0(key.toId()); // What is the exact current tick for the pool (second value )
 
             int24 currentTickLower = _getTickLower(currentTick, key.tickSpacing);
+
+            bool swapZeroForOne = !params.zeroForOne;
+            int256 swapAmountIn;
+
+            // Tick has increased i.e price of tiken 0 has increased
+            if (lastTickLower < currentTickLower) {
+                for(int24 tick = lastTickLower; tick < currentTickLower;) {
+                    swapAmountIn = takeProfitPositions[key.toId()][tick][swapZeroForOne];
+                    if(swapAmountIn > 0) {
+                        fillOrder(key, tick, swapZeroForOne, swapAmountIn)
+                    }
+                    tick += key.tickSpacing;
+                }
+            } else {
+                for (int24 tick = lastTickLower; currentTickLower < tick;){
+                    swapAmountIn = takeProfitPositions[key.toId()][tick][swapZeroForOne];
+                    if(swapAmountIn > 0) {
+                        fillOrder(key, tick, swapZeroForOne, swapAmountIn);
+                    }
+                    tick -= key.tickSpacing;
+                }
+            }
 
             
         }
