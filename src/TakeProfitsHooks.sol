@@ -109,6 +109,8 @@ contract TakeProfitHook is BaseHook, ERC1155 {
                 }
             }
 
+            tickLowerLast[key.toId] = currentTickLower;
+
             
         }
 
